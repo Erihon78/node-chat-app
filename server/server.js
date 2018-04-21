@@ -23,6 +23,19 @@ useByApp.map(result => {
 
 io.on('connection', (socket) => {
 	console.log('New user connected');
+
+	socket.emit('newMessage', {
+		from: 'Mike',
+		text: 'Super dooper is going on.'
+	});
+
+	socket.on('createMessage', (message) => {
+		console.log('createMessage', message);
+	});
+
+	socket.on('disconnect', () => {
+		console.log('User was disconnected');
+	});
 });
 
 server.listen(port, () => {
