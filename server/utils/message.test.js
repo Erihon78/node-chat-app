@@ -23,7 +23,7 @@ describe('generateLocationMessage', () => {
 		let from = 'Admin',
 			lat = 50,
 			lng = 23,
-			url = `My <a href="https://google.com/maps?q=${lat},${lng}" target="_blank">location</a>`,
+			url = `https://google.com/maps?q=${lat},${lng}`,
 			locationMessage = generateLocationMessage(from, lat, lng);
 
 		expect(typeof locationMessage.createdAt).toBe('number');

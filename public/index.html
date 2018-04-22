@@ -25,9 +25,36 @@
 		</div>		
 	</div>	
 
-	<script type="text/javascript" src="/socket.io/socket.io.js"></script>
-	<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-	<script type="text/javascript" src="https://momentjs.com/downloads/moment-with-locales.min.js"></script>
-	<script type="text/javascript" src="/js/index.js"></script>
+	<script type="text/template" id="message-template">
+		<li class="message">
+			<div class="message__title">
+				<h4>{{from}}</h4>
+				<span>{{createdAt}}</span>
+			</div>
+			<div class="message__body">
+				<p>{{text}}</p>
+			</div>
+		</li>
+	</script>
+
+	<script type="text/template" id="location-message-template">
+		<li class="message">
+			<div class="message__title">
+				<h4>{{from}}</h4>
+				<span>{{createdAt}}</span>
+			</div>
+			<div class="message__body">
+				<p>
+					My <a href="{{url}}" target="_blank">location</a>
+				</p>
+			</div>
+		</li>
+	</script>
+
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<script src="https://momentjs.com/downloads/moment-with-locales.min.js"></script>
+	<script src="/js/libs/mustache.js"></script>
+	<script src="/js/index.js"></script>
 </body>
 </html>

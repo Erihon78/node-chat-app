@@ -9,19 +9,27 @@ socket.on('disconnect', () => {
 });
 
 socket.on('newMessage', (message) => {
-	let li = $('<li></li>'),
-	 	formattedTime = moment(message.createdAt).format('h:mm a');
-	
-	li.text(`${message.from} ${formattedTime}: ${message.text}`);
-	$('#messages').append(li);
+	let template = $('#message-template').html(),
+		createdAt = moment(message.createdAt).format('h:mm a'),
+		html = Mustache.render(template, {
+			from: message.from,
+			text: message.text,			
+			createdAt			
+		});
+
+	$('#messages').append(html);
 });
 
 socket.on('newLocationMessage', (message) => {
-	let li = $('<li></li>'),
-		formattedTime = moment(message.createdAt).format('h:mm a');
-	
-	li.html(`${message.from} ${formattedTime}: ${message.url}`);
-	$('#messages').append(li);
+	let template = $('#location-message-template').html(),
+		createdAt = moment(message.createdAt).format('h:mm a'),
+		html = Mustache.render(template, {			
+			from: message.from,
+			url: message.url,
+			createdAt			
+		});
+
+	$('#messages').append(html);
 });
 
 $('#message-form').on('submit', (e) => {
@@ -50,7 +58,7 @@ locationButton.on('click', () => {
 
 	navigator.geolocation.getCurrentPosition((position) => {
 		locationButton.removeAttr('disabled').text('Send location');
-		
+
 		socket.emit('createLocationMessage', {
 			latitude: position.coords.latitude,
 			longitude: position.coords.longitude

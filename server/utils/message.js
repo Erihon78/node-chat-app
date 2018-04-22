@@ -11,7 +11,7 @@ let generateMessage = (from, text) => {
 let generateLocationMessage = (from, lat, lng) => {
 	return {
 		from, 
-		url: `My <a href="https://google.com/maps?q=${lat},${lng}" target="_blank">location</a>`,
+		url: `https://google.com/maps?q=${lat},${lng}`,
 		createdAt: moment().valueOf()
 	}
 }
