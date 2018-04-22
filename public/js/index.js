@@ -9,16 +9,18 @@ socket.on('disconnect', () => {
 });
 
 socket.on('newMessage', (message) => {
-	console.log('New message', message);
-
-	let li = $('<li></li>');
-	li.text(`${message.from}: ${message.text}`);
+	let li = $('<li></li>'),
+	 	formattedTime = moment(message.createdAt).format('h:mm a');
+	
+	li.text(`${message.from} ${formattedTime}: ${message.text}`);
 	$('#messages').append(li);
 });
 
 socket.on('newLocationMessage', (message) => {
-	let li = $('<li></li>');
-	li.html(`${message.from}: ${message.url}`);
+	let li = $('<li></li>'),
+		formattedTime = moment(message.createdAt).format('h:mm a');
+	
+	li.html(`${message.from} ${formattedTime}: ${message.url}`);
 	$('#messages').append(li);
 });
 
@@ -33,7 +35,7 @@ $('#message-form').on('submit', (e) => {
 		text
 	}, () => {
 		messageTextbox.val('');
-		console.log('Message sent!')
+		console.log('Message sent!');
 	});
 });
 
@@ -54,7 +56,7 @@ locationButton.on('click', () => {
 			longitude: position.coords.longitude
 		});
 	}, () => {
-		locationButton.removeAttr('disabled').text('Send location');
+		locationButton.removeAttr('disabled').text('Send location');;
 		console.log('Unable to fetch location.');
 	});
 });
