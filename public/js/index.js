@@ -1,5 +1,19 @@
 let socket = io();
 
+const scrollToBottom = () => {
+	let messages = $('#messages'),
+		newMessage = messages.children('li:last-child'),
+		clientHeight = messages.prop('clientHeight'),
+		scrollTop = messages.prop('scrollTop'),
+		scrollHeight = messages.prop('scrollHeight'),
+		newMessageHeight = newMessage.innerHeight(),
+		lastMessageHeight = newMessage.prev().innerHeight();
+
+	if (clientHeight + scrollTop + newMessageHeight + lastMessageHeight >= scrollHeight) {
+		messages.scrollTop(scrollHeight);
+	}
+};
+
 socket.on('connect', () => {
 	console.log('Connected to server!');
 });
@@ -13,23 +27,25 @@ socket.on('newMessage', (message) => {
 		createdAt = moment(message.createdAt).format('h:mm a'),
 		html = Mustache.render(template, {
 			from: message.from,
-			text: message.text,			
-			createdAt			
+			text: message.text,
+			createdAt
 		});
 
 	$('#messages').append(html);
+	scrollToBottom();
 });
 
 socket.on('newLocationMessage', (message) => {
 	let template = $('#location-message-template').html(),
 		createdAt = moment(message.createdAt).format('h:mm a'),
-		html = Mustache.render(template, {			
+		html = Mustache.render(template, {
 			from: message.from,
 			url: message.url,
-			createdAt			
+			createdAt
 		});
 
 	$('#messages').append(html);
+	scrollToBottom();
 });
 
 $('#message-form').on('submit', (e) => {
