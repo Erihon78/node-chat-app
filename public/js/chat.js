@@ -43,7 +43,7 @@ socket.on('disconnect', () => {
 
 socket.on('newMessage', (message) => {
 	let template = $('#message-template').html(),
-		createdAt = moment(message.createdAt).format('h:mm a'),
+		createdAt = moment(message.createdAt).format('llll'),
 		html = Mustache.render(template, {
 			from: message.from,
 			text: message.text,
@@ -56,7 +56,7 @@ socket.on('newMessage', (message) => {
 
 socket.on('newLocationMessage', (message) => {
 	let template = $('#location-message-template').html(),
-		createdAt = moment(message.createdAt).format('h:mm a'),
+		createdAt = moment(message.createdAt).format('llll'),
 		html = Mustache.render(template, {
 			from: message.from,
 			url: message.url,
@@ -74,7 +74,6 @@ $('#message-form').on('submit', (e) => {
 		text = messageTextbox.val();
 
 	socket.emit('createMessage', {
-		from: 'User',
 		text
 	}, () => {
 		messageTextbox.val('');
