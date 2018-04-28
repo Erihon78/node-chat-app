@@ -15,7 +15,26 @@ const scrollToBottom = () => {
 };
 
 socket.on('connect', () => {
-	console.log('Connected to server!');
+	let params = $.deparam(window.location.search);
+
+	socket.emit('join', params, (error) => {
+		if (error) {
+			alert(error);
+			window.location.href = '/';
+		} else {
+			console.log('No error');
+		}
+	});
+});
+
+socket.on('updateUserList', (users) => {
+	let ol = $('<ol></ol>');
+
+	users.map(user => {		
+		ol.append($(`<li>${user}</li>`));
+	});	
+
+	$('#users').html(ol);
 });
 
 socket.on('disconnect', () => {
